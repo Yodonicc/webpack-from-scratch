@@ -1,3 +1,5 @@
+// const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const path = require('path')
 
 module.exports = {
@@ -31,7 +33,9 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    'style-loader',
+                    {
+                        loader: 'style-loader'
+                    },
                     {
                         loader: 'css-loader',
                         options: {
@@ -41,7 +45,27 @@ module.exports = {
                     
                 ],
             },
+            {
+                test: /\.css$/,
+                // loader: ExtractTextPlugin.extract({
+                //     fallback: 'style-loader',
+                //     use: [{
+                //         loader: 'css-loader',
+                //         options: {
+                //             modules: true
+                //         }
+                //     }]
+                // }),
+                use: [
+                    // MiniCssExtractPlugin.loader, 'css-loader', 'style-loader'
+                    MiniCssExtractPlugin.loader, 'css-loader',
+                ],
+            },
         ]
         
-    }
+    },
+    plugins: [
+        // new ExtractTextPlugin('css/[name].[hash].css')
+        new MiniCssExtractPlugin()
+    ]
 }
